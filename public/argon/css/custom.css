@@ -1,0 +1,10 @@
+.selectHora{
+    background-color:#5EBA7D;
+    color:white;
+}
+
+.date_atendimento_tela{
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
+}
