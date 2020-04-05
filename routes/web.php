@@ -32,6 +32,8 @@ Route::group(['middleware' => 'auth', 'namespace' => 'recepcao\configuracoes'], 
 Route::group(['middleware' => 'auth', 'namespace' => 'recepcao\atendimento'], function () {
 	Route::post('paciente', 'PacienteController@search')->name('listaPacientes');
 	Route::post('horariosAtendimento', 'AtendimentoController@exibeHorariosAtendimento')->name('horariosAtendimento');
+	Route::get('horariosAtendimentoGET', 'AtendimentoController@exibeHorariosAtendimento');
+	Route::get('listaAtendimentos', 'AtendimentoController@index')->name('listaAtendimentos');
 });
 
 

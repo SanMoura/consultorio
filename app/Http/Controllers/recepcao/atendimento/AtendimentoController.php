@@ -12,19 +12,25 @@ use App\User;
 
 class AtendimentoController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         $ds_pagina = 'CONSULTÓRIO > ATENDIMENTO';
 
-        $data = date('d/m/Y');
+        $data = $request->only('data');
+        if (empty($data)){
+            $data = ['data' => date('Y/m/d') ];
+            
+        }
+
+        $dataTela = date('Y-m-d', strtotime($data['data']));
 
         $atendimentos = atendimento::where('dt_alta', null)
-                                    ->where('dt_atendimento', '=' ,date('Y/m/d'))
+                                    ->where('dt_atendimento', '=' ,$data)
                                     ->with('paciente')
                                     ->with('usuario')
                                     ->with('convenio')
                                     ->get();
 
-        return view('recepcao.atendimento.atendimento', compact('atendimentos', 'ds_pagina', 'data'));
+        return view('recepcao.atendimento.atendimento', compact('atendimentos', 'ds_pagina', 'dataTela'));
     }
 
     public function create(atendimento $atendimentos){
@@ -91,16 +97,7 @@ class AtendimentoController extends Controller
         $tpa = 30;
         $cont = 0;
         
-        
-        if ($data['dia'] < date("Y-m-d")){
-            $check = 'red';
-            $mensagem = 'INDISPONÍVEL';    
-            $selecionar = 0;
-        }elseif($data['dia'] >= date("Y-m-d")){
-            $mensagem = date('H:i');
-            $check = 'green';
-            $selecionar = 1;
-        }
+  
         
 
         for ($i = $hi; $i < $hf;){
@@ -114,17 +111,18 @@ class AtendimentoController extends Controller
                     }else{
                         $cont = 0;  
                     }
-
-                    if (convertToHoursMins($i) < date('H:i')){
-                        $mensagem = 'INDISPONÍVEL';  
-                        $selecionar = 0;  
-                        $check = 'red';
-                    }else{
-                        $mensagem = 'LIVRE';
-                        $selecionar = 1;
-                        $check = 'green';
-                    }
-                }   
+                
+                }
+                
+                if ((convertToHoursMins($i) < date('H:i') && $data['dia'] <= date("Y-m-d")) || $data['dia'] < date("Y-m-d")){
+                    $mensagem = 'INDISPONÍVEL';  
+                    $selecionar = 0;  
+                    $check = 'red';
+                }else{
+                    $mensagem = 'LIVRE';
+                    $selecionar = 1;
+                    $check = 'green';
+                }    
             
             if ($cont == 1){
                 echo '<tr><td> '.convertToHoursMins($i).' </td>

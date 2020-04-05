@@ -4,9 +4,16 @@
     $(document).ready(function () {
         $('.cpf').mask('000.000.000-00', {reverse: true});
     
-    });
 
   
+
+    });
+
+    function listaAtendimentos () {
+        var url = "{{ route('listaAtendimentos') }}";
+        var dataTela = document.getElementById('dateLista').value;
+        window.location.href = url+'?data='+dataTela;
+    }
 
     $('.cep').focusout(
     function () {
@@ -89,6 +96,7 @@
     var nomePac = document.getElementById(par.id).parentNode.parentNode.querySelector('.paciente').innerText;
         $('#retornoNomePacChegada').html(nomePac);
     }
+
     $('#btn_modal_horario').click(
     function () {
         var dia = $('#dt_agendamento').val();
@@ -116,4 +124,5 @@
         $('#horarioSelecionadoTela').val(hora);
         
     }
+
 </script>

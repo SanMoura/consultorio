@@ -12,7 +12,7 @@
                                     <div class="col">
                                     <form action="" method="post">
                                         @csrf
-                                        <input type="date" style="border:none;" class="date_atendimento_tela" value="{{ date('Y-d-m',strtotime($data)) }}">
+                                    <input type="date" style="border:none;" class="date_atendimento_tela" id="dateLista" onchange="listaAtendimentos()" value="{{ $dataTela }}">
                                     </form>    
                                     </div>
                                     <div class="col text-right">
@@ -54,10 +54,10 @@
                                                     {{$atendimento->usuario->name}}
                                                 </td>
                                                 <td class="text-center cPointer">
-                                                    <i class="fas fa-check-square" data-toggle="modal" data-target="#confirmarChegada" id="{{ $atendimento->id }}atend" onclick="nomePacienteConfirmaChegada(this)"></i>
+                                                  <i class="fas fa-check-square" data-toggle="modal" data-target="#confirmarChegada" id="{{ $atendimento->id }}atend" onclick="nomePacienteConfirmaChegada(this)"></i>      
                                                 </td>
-                                                <td class="text-center cPointer">
-                                                    <i class="fas fa-edit"></i>    
+                                                <td class="text-center cPointer"> 
+                                                   <i class="fas fa-edit"></i>
                                                 </td>
                                             </tr>
                                         @empty
